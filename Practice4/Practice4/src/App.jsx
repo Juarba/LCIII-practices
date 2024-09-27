@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
-import TaskList from './components/TaskList/TaskList';
 import AddTask from './components/AddTask/AddTask';
+import TaskList from './components/TaskList/TaskList';
 
-
-
-const App = () => {
+function App() {
   const [tasks, setTasks] = useState([]);
 
-  const addTask = (taskName) => {
-    setTasks([...tasks, { id: Date.now(), name: taskName, completed: false }]);
+  const handlerAddTask = (task) => {
+    setTasks([...tasks, { text: task, completed: false }]);
   };
 
-  const toggleComplete = (id) => {
-    setTasks(tasks.map(task =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    ));
+  const handlerToggleTaskCompletion = (index) => {
+    const newTasks = tasks.map((task, i) =>
+      i === index ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(newTasks);
   };
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
+  const handlerDeleteTask = (index) => {
+    setTasks(tasks.filter((_, i) => i !== index));
   };
 
   return (
-    <div >
-      <h1>Lista de Tareas</h1>
-      <AddTask addTask={addTask}/>
-      <TaskList tasks={tasks} toggleComplete={toggleComplete} deleteTask={deleteTask} />
+    <div>
+      <h1>Tareas</h1>
+      <AddTask addTask={handlerAddTask} />
+      <TaskList 
+        tasks={tasks}
+        handlerToggleTaskCompletion={handlerToggleTaskCompletion}
+        handlerDeleteTask={handlerDeleteTask}
+      />
     </div>
   );
-};
+}
 
 export default App;

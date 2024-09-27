@@ -1,19 +1,25 @@
 import React from 'react';
 
-const TaskList = ({ tasks, toggleComplete, deleteTask }) => {
+function TaskList({ tasks, handlerToggleTaskCompletion, handlerDeleteTask }) {
   return (
     <ul>
-      {tasks.map(task => (
-        <li key={task.id} style={{ textDecoration: task.completed ? 'bold' : 'none', color: task.completed ? 'green' : 'red' }}>
-          {task.name}
-          <button onClick={() => toggleComplete(task.id)}>
-            {task.completed ? 'Anular' : 'Completar'}
+      {tasks.map((task, index) => (
+        <li 
+          key={index}
+          style={{ 
+            textDecoration: task.completed ? 'bold' : 'none',
+            color: task.completed ? 'red' : 'green'
+          }}
+        >
+          {task.text}
+          <button onClick={() => handlerToggleTaskCompletion(index)}>
+            {task.completed ? 'Desmarcar' : 'Marcar'}
           </button>
-          <button onClick={() => deleteTask(task.id)}>Borrar</button>
+          <button onClick={() => handlerDeleteTask(index)}>Borrar</button>
         </li>
       ))}
     </ul>
   );
-};
+}
 
 export default TaskList;
